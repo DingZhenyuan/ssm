@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ustb.mapper.ProductCategoryMapper">
+
+	<insert id="insertProductCategory" useGeneratedKeys="true"
+		keyColumn="product_category_id" keyProperty="productCategoryId">
+		INSERT INTO
+		tb_product_category(product_category_name, priority, create_time,
+		shop_id)
+		VALUES
+		(#{productCategoryName},#{priority},#{createTime},#{shopId})
+	</insert>
+
+	<select id="queryProductCategory" resultType="edu.ustb.domain.ProductCategory">
+		SELECT
+		product_category_id,
+		product_category_name,
+		priority,
+		create_time
+		FROM
+		tb_product_category
+		where shop_id = #{shopId}
+		ORDER BY priority DESC
+	</select>
+
+	<select id="queryById" resultType="edu.ustb.domain.ProductCategory"
+		parameterType="Long">
+		SELECT
+		tb_product_category.product_category_id,
+		tb_product_category.product_category_name,
+		tb_product_category.priority,
+		tb_product_category.create_time,
+		tb_product_category.shop_id
+		FROM
+		tb_product_category
+		WHERE
+		tb_product_category.product_category_id = #{productCategoryId}
+	</select>
+
+	<update id="updateProductCategory" parameterType="edu.ustb.domain.ProductCategory">
+		update tb_product_category
+		<set>
+			<if test="productCategoryName != null">product_category_name=#{productCategoryName},</if>
+			<if test="priority != null">priority=#{priority},</if>
+		</set>
+		where product_category_id=#{productCategoryId}
+	</update>
+</mapper>

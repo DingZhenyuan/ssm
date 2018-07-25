@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ustb.mapper.LocalAuthMapper">
+	<resultMap type="edu.ustb.domain.LocalAuth" id="localAuthMap">
+		<id column="local_auth_id" property="localAuthId"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="user_id" property="personInfo.userId"/>
+		<result column="name" property="personInfo.name"/>
+		<result column="user_type" property="personInfo.userType"/>
+	</resultMap>
+	<select id="findByUserName" resultMap="localAuthMap">
+		SELECT
+		tb_person_info.user_id,
+		tb_person_info.`name`,
+		tb_person_info.profile_img,
+		tb_person_info.email,
+		tb_person_info.gender,
+		tb_person_info.enable_status,
+		tb_person_info.user_type,
+		tb_person_info.create_time,
+		tb_person_info.last_edit_time,
+		tb_local_auth.local_auth_id,
+		tb_local_auth.user_id,
+		tb_local_auth.username,
+		tb_local_auth.`password`,
+		tb_local_auth.create_time,
+		tb_local_auth.last_edit_time
+		FROM
+		tb_local_auth
+		INNER JOIN tb_person_info
+		ON tb_local_auth.user_id = tb_person_info.user_id
+		WHERE
+		tb_local_auth.username = #{username}
+	</select>
+</mapper>
+    
